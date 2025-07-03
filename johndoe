@@ -1,3 +1,9 @@
+		local function breakJoints(instance)
+			for i,v in pairs(instance:GetDescendants()) do
+				if not (v:IsA("Weld") or v:IsA("WeldConstraint") or v:IsA("JointInstance")) then continue end
+				delete(v)
+			end
+		end
 local Player = game.Players.LocalPlayer
 ------------
 		--John Doe--
