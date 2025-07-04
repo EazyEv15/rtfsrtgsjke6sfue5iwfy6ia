@@ -7,7 +7,7 @@
 
 		local script = game:GetObjects("rbxassetid://10561777706")[1]
 		local MODULE = script
-		local PLAYER = Player
+		local PLAYER = game.Players.LocalPlayer
 		local CHARACTER = PLAYER.Character
 		local HUM = CHARACTER.Humanoid
 
