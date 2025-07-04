@@ -1177,7 +1177,7 @@ local function processCommand(msg)
 	elseif isCmd(cmd, {"hideandseekaudio"}) then
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/nmalka0I/nmalka0I/refs/heads/main/H%26SAudioPlayer"))()
 	elseif isCmd(cmd, {"brookhavenaudio"}) then
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/ameicaa1/brookhaven-script/main/brookhaven%20script.lua"))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/nmalka01/nmalka01/refs/heads/main/Brookhaven_audio"))()
 	elseif isCmd(cmd, {"harked"}) then
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/JxcExploit/Harkedv2-script/main/Leaked-v2hardked"))()
 	elseif isCmd(cmd, {"hammer"}) then
