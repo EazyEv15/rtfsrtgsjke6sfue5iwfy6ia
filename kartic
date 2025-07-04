@@ -1,4 +1,4 @@
-		Player = Player
+		Player = game.Players.LocalPlayer
 		Character = Player.Character
 		Character.Animate.Enabled = false
 		PlayerGui = Player.PlayerGui
