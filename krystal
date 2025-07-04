@@ -19,7 +19,7 @@ K = Runnin' in the 90's
 		--Credits to Krystalteam, they made the original krystal dance! Be sure to respect them or else...--
 		--#makeoldscriptsgreatagain--
 
-		Player=Player
+		Player=game.Players.LocalPlayer
 		Character=Player.Character
 		hum = Character.Humanoid
 		LeftArm=Character["Left Arm"]
