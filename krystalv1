@@ -1,5 +1,5 @@
 		wait(0)
-		Player = Player
+		Player = game.Players.LocalPlayer
 
 		local count = 0
 		local countspeed = 1
