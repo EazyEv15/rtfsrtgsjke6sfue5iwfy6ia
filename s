@@ -1216,8 +1216,22 @@ local function processCommand(msg)
 		local Players = game:GetService("Players")
 		local LocalPlayer = Players.LocalPlayer
 		queue_on_teleport([[
+	if getgenv and getgenv().eazy_admin_loaded then return end
+	if getgenv then getgenv().eazy_admin_loaded = true end
+
+	repeat wait() until game:IsLoaded()
+
+	local Players = game:FindService("Players")
+	repeat wait() until Players and Players.LocalPlayer and Players.LocalPlayer:FindFirstChild("PlayerGui")
+
+	local success, err = pcall(function()
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/EazyEv15/rtfsrtgsjke6sfue5iwfy6ia/refs/heads/main/s"))()
-	]])
+	end)
+
+	if not success then
+		warn("EazyAdmin error:", err)
+	end
+]])
 		TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, LocalPlayer)
 	elseif isCmd(cmd, {"serverhop"}) then
 		local TeleportService = game:GetService("TeleportService")
@@ -1225,7 +1239,21 @@ local function processCommand(msg)
 		local Players = game:GetService("Players")
 		local LocalPlayer = Players.LocalPlayer
 		queue_on_teleport([[
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/EazyEv15/rtfsrtgsjke6sfue5iwfy6ia/refs/heads/main/s"))()
+	if getgenv and getgenv().eazy_admin_loaded then return end
+	if getgenv then getgenv().eazy_admin_loaded = true end
+
+	repeat wait() until game:IsLoaded()
+
+	local Players = game:FindService("Players")
+	repeat wait() until Players and Players.LocalPlayer and Players.LocalPlayer:FindFirstChild("PlayerGui")
+
+	local success, err = pcall(function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/EazyEv15/rtfsrtgsjke6sfue5iwfy6ia/refs/heads/main/s"))()
+	end)
+
+	if not success then
+		warn("EazyAdmin error:", err)
+	end
 ]])
 
 		local function serverHop()
